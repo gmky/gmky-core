@@ -1,0 +1,681 @@
+openapi: 3.0.0
+info:
+  title: User API Docs
+  version: 1.0.0
+  description: User API Docs
+tags:
+  - name: Permission Client
+    description: Permission Client API
+  - name: Permission Set Client
+    description: Permission Set Client API
+  - name: Role Client
+    description: Role Client API
+  - name: User Client
+    description: User Client API
+  - name: Auth Client
+    description: Authentication Client API
+paths:
+  /client-api/v1/auth/login:
+    post:
+      summary: Login with username and password
+      description: Login with username and password
+      operationId: login
+      tags:
+        - Auth Client
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        200:
+          description: Session authentication info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+  /client-api/v1/permissions:
+    get:
+      summary: Filter permission
+      operationId: filterPermission
+      description: Filter permission
+      tags:
+        - Permission Client
+      parameters:
+        - name: permissionCode
+          description: Permission code
+          in: query
+          schema:
+            type: string
+        - name: resourceCode
+          description: Resource code
+          in: query
+          schema:
+            type: string
+        - $ref: '#/components/parameters/pageable'
+      responses:
+        200:
+          description: List filtered permission
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PermissionDto'
+  /client-api/v1/permissions/{id}:
+    get:
+      summary: Get permission detail
+      operationId: findById
+      tags:
+        - Permission Client
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: Permission detail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PermissionDto'
+  /client-api/v1/permission-set:
+    get:
+      summary: Filter permission set
+      description: Filter permission set
+      operationId: filterPermissionSet
+      tags:
+        - Permission Set Client
+      parameters:
+        - name: name
+          description: Name of permission set
+          in: query
+          schema:
+            type: string
+        - name: type
+          description: Type of permission set
+          in: query
+          schema:
+            $ref: '#/components/schemas/PermissionSetTypeEnum'
+        - $ref: '#/components/parameters/pageable'
+      responses:
+        200:
+          description: List filtered permission set
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PermissionSetDto'
+    post:
+      summary: Add permission set
+      description: Add new permission set
+      operationId: createPermissionSet
+      tags:
+        - Permission Set Client
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePermissionSetRequest'
+      responses:
+        200:
+          description: Create permission set successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PermissionSetDto'
+  /client-api/v1/permission-set/{id}:
+    get:
+      summary: Get permission set detail
+      description: Get permission set detail
+      operationId: getPermissionSetDetailById
+      tags:
+        - Permission Set Client
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: Permission set detail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PermissionSetDto'
+    put:
+      summary: Update permission set by ID
+      description: Update permission set by ID
+      operationId: updatePermissionSetById
+      tags:
+        - Permission Set Client
+      parameters:
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePermissionSetRequest'
+      responses:
+        200:
+          description: Update permission set successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PermissionSetDto'
+    delete:
+      summary: Delete permission set by ID
+      description: Delete permission set by ID
+      operationId: deletePermissionSetById
+      tags:
+        - Permission Set Client
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: Delete permission set successfully
+          content:
+            application/json: { }
+  /client-api/v1/roles:
+    get:
+      summary: Filter role
+      description: Filter role
+      operationId: filterRole
+      tags:
+        - Role Client
+      parameters:
+        - in: query
+          name: name
+          description: Name of role
+          schema:
+            type: string
+        - in: query
+          name: type
+          description: Type of role
+          schema:
+            $ref: '#/components/schemas/RoleTypeEnum'
+        - in: query
+          name: isEnable
+          description: Is those role are enable
+          schema:
+            type: boolean
+        - in: query
+          name: isDefault
+          description: Is those role are default
+          schema:
+            type: boolean
+        - $ref: '#/components/parameters/pageable'
+      responses:
+        200:
+          description: Filtered roles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleDto'
+    post:
+      summary: Create new role
+      description: Create new role
+      operationId: createRole
+      tags:
+        - Role Client
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRoleRequest'
+      responses:
+        200:
+          description: Create new role successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleDto'
+  /client-api/v1/roles/{id}:
+    get:
+      summary: Get role detail by ID
+      operationId: getRoleDetailById
+      description: Get role detail by ID
+      tags:
+        - Role Client
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: Role detail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleDto'
+    put:
+      summary: Update role by ID
+      operationId: updateRoleById
+      description: Update role by ID
+      tags:
+        - Role Client
+      parameters:
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateRoleRequest'
+      responses:
+        200:
+          description: Update role successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleDto'
+    delete:
+      summary: Delete role by ID
+      operationId: deleteRoleById
+      description: Delete role by ID
+      tags:
+        - Role Client
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: Delete role successfully
+          content:
+            application/json: { }
+  /client-api/v1/profile:
+    get:
+      summary: Get current user profile
+      description: Get current user profile
+      operationId: profile
+      tags:
+        - User Client
+      responses:
+        200:
+          description: Current user profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileDto'
+  /client-api/v1/summary:
+    get:
+      summary: Get current user granted authorities
+      description: Get current user granted authorities
+      operationId: summary
+      tags:
+        - User Client
+      responses:
+        200:
+          description: Current user granted authorities
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SummaryItemDto'
+  /client-api/v1/users/{userId}:
+    get:
+      summary: Get user detail by ID
+      description: Get user detail by ID
+      operationId: getUserDetailById
+      tags:
+        - User Client
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      responses:
+        200:
+          description: User detail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileDto'
+    put:
+      summary: Update user detail by ID
+      description: Update user detail by ID
+      operationId: updateUserById
+      tags:
+        - User Client
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRequest'
+      responses:
+        200:
+          description: User detail updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileDto'
+  /client-api/v1/metadata/user-status:
+    get:
+      summary: Get user status list
+      description: Get user status list
+      operationId: getUserStatuses
+      tags:
+        - Metadata
+      responses:
+        200:
+          description: List user status
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserStatusEnum'
+  /client-api/v1/users:
+    get:
+      summary: Filter user
+      description: Filter user
+      operationId: filterUsers
+      tags:
+        - User Client
+      parameters:
+        - in: query
+          name: username
+          schema:
+            type: string
+        - in: query
+          name: email
+          schema:
+            type: string
+        - in: query
+          name: fullName
+          schema:
+            type: string
+        - in: query
+          name: statuses
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/UserStatusEnum'
+        - $ref: '#/components/parameters/pageable'
+      responses:
+        200:
+          description: List paginated user list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProfileDto'
+  /client-api/v1/roles/{id}/users:
+    get:
+      description: Get users in role
+      summary: Get users in role
+      operationId: usersInRoleById
+      tags:
+        - Role Client
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/pageable'
+      responses:
+        200:
+          description: List user in role
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProfileDto'
+  /client-api/v1/permission-set/{id}/users:
+    get:
+      description: Get users in permission set by ID
+      summary: Get users in permission set by ID
+      operationId: usersInPermissionSetById
+      tags:
+        - Permission Set Client
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/pageable'
+      responses:
+        200:
+          description: List user in permissions set
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProfileDto'
+  /client-api/v1/permissions/{id}/users:
+    get:
+      description: Get users has permission
+      summary: Get users has permission by ID
+      operationId: usersHasPermissionById
+      tags:
+        - Permission Client
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/pageable'
+      responses:
+        200:
+          description: List user has permission
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProfileDto'
+components:
+  parameters:
+    pageable:
+      name: pageable
+      in: query
+      description: Pagination
+      schema:
+        $ref: '#/components/schemas/Pageable'
+    id:
+      name: id
+      in: path
+      description: ID of object
+      required: true
+      schema:
+        type: integer
+        format: int64
+    userId:
+      in: path
+      name: userId
+      description: ID of user
+      required: true
+      schema:
+        type: string
+  schemas:
+    Pageable:
+      type: object
+      properties:
+        page:
+          type: integer
+        size:
+          type: integer
+    PermissionSetTypeEnum:
+      type: string
+      enum:
+        - TEMPLATE
+        - CUSTOM
+    RoleTypeEnum:
+      type: string
+      enum:
+        - TEMPLATE
+        - CUSTOM
+    UserStatusEnum:
+      type: string
+      enum:
+        - ACTIVE
+        - PENDING
+        - LOCKED
+    PermissionDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        permissionCode:
+          type: string
+        resourceCode:
+          type: string
+      required:
+        - id
+        - permissionCode
+        - resourceCode
+    PermissionSetDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        type:
+          $ref: '#/components/schemas/PermissionSetTypeEnum'
+      required:
+        - id
+        - name
+        - type
+    RoleDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        type:
+          $ref: '#/components/schemas/RoleTypeEnum'
+        isEnable:
+          type: boolean
+        isDefault:
+          type: boolean
+    ProfileDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        userId:
+          type: string
+        username:
+          type: string
+        fullName:
+          type: string
+        status:
+          $ref: '#/components/schemas/UserStatusEnum'
+        dob:
+          type: string
+          format: date-time
+        email:
+          type: string
+        lockedAt:
+          type: string
+          format: date-time
+        activatedAt:
+          type: string
+          format: date-time
+    SummaryItemDto:
+      type: object
+      properties:
+        resource:
+          type: string
+        permissions:
+          type: array
+          items:
+            type: string
+    UpdateUserRequest:
+      type: object
+      properties:
+        fullName:
+          type: string
+        status:
+          $ref: '#/components/schemas/UserStatusEnum'
+        dob:
+          type: string
+          format: date-time
+        removedRoles:
+          type: array
+          items:
+            type: integer
+            format: int64
+        addedRoles:
+          type: array
+          items:
+            type: integer
+            format: int64
+    UpdateRoleRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        isEnable:
+          type: boolean
+        isDefault:
+          type: boolean
+        removedPermissionSet:
+          type: array
+          items:
+            type: integer
+            format: int64
+        addedPermissionSet:
+          type: array
+          items:
+            type: integer
+            format: int64
+    UpdatePermissionSetRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        removedPermission:
+          type: array
+          items:
+            type: integer
+            format: int64
+        addedPermission:
+          type: array
+          items:
+            type: integer
+            format: int64
+    CreatePermissionSetRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        permissionIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+    CreateRoleRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        isEnable:
+          type: boolean
+        isDefault:
+          type: boolean
+        psIdList:
+          type: array
+          items:
+            type: integer
+            format: int64
+    LoginRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+          format: password
+        rememberMe:
+          type: boolean
+          default: false
+    LoginResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string

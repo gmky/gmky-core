@@ -1,0 +1,110 @@
+openapi: 3.0.0
+info:
+  title: User API Docs
+  version: 1.0.0
+  description: User API Docs
+tags:
+  - name: Keycloak Client
+    description: Authentication
+servers:
+  - url: https://lemur-7.cloud-iam.com/auth/realms/gmky
+    description: Keycloak DEV
+paths:
+  /protocol/openid-connect/token:
+    post:
+      summary: Login with username and password
+      description: Login with username and password keycloak
+      operationId: loginWithUsernameAndPassword
+      tags:
+        - Keycloak Client
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/KeycloakLoginWithUsernameAndPasswordRequest'
+      responses:
+        200:
+          description: Token detail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KeycloakLoginWithUsernameAndPasswordResponse'
+  /protocol/openid-connect/userinfo:
+    get:
+      summary: Get current user info
+      description: Get current user info
+      operationId: getCurrentUserInfo
+      tags:
+        - Keycloak Client
+      parameters:
+        - in: header
+          name: Authorization
+          description: Authorization token
+          schema:
+            type: string
+      responses:
+        200:
+          description: Current user info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KeycloakUserInfo'
+components:
+  schemas:
+    KeycloakLoginWithUsernameAndPasswordRequest:
+      type: object
+      properties:
+        grant_type:
+          type: string
+          default: "password"
+        client_id:
+          type: string
+        client_secret:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+        scope:
+          type: string
+          default: "openid"
+    KeycloakLoginWithUsernameAndPasswordResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+        expires_in:
+          type: integer
+          format: int64
+        refresh_expires_in:
+          type: integer
+          format: int64
+        refresh_token:
+          type: string
+        token_type:
+          type: string
+        id_token:
+          type: string
+        not-before-policy:
+          type: integer
+        session_state:
+          type: string
+        scope:
+          type: string
+    KeycloakUserInfo:
+      type: object
+      properties:
+        sub:
+          type: string
+        email_verified:
+          type: boolean
+        name:
+          type: string
+        preferred_username:
+          type: string
+        given_name:
+          type: string
+        family_name:
+          type: string
+        email:
+          type: string

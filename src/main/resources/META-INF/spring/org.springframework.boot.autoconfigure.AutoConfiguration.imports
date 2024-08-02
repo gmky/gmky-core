@@ -1,0 +1,7 @@
+gmky.core.GmkyCoreAutoConfiguration
+gmky.core.config.LiquibaseConfiguration
+gmky.core.config.AspectConfiguration
+gmky.core.config.AuditorConfiguration
+gmky.core.config.SwaggerConfiguration
+gmky.core.config.SecurityConfiguration
+gmky.core.config.KeycloakApiConfiguration

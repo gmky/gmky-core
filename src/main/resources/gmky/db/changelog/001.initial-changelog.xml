@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.27.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="001.create-permission-table" author="gmky">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="permission"/>
+            </not>
+        </preConditions>
+        <createTable tableName="permission">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_permission"/>
+            </column>
+            <column name="created_at" type="DATETIME"/>
+            <column name="created_by" type="VARCHAR(255)"/>
+            <column name="updated_at" type="DATETIME"/>
+            <column name="updated_by" type="VARCHAR(255)"/>
+            <column name="permission_code" type="VARCHAR(255)"/>
+            <column name="resource_code" type="VARCHAR(255)"/>
+            <column name="description" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="002.create-permission-set-table" author="gmky">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="permission_set"/>
+            </not>
+        </preConditions>
+        <createTable tableName="permission_set">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_permission_set"/>
+            </column>
+            <column name="created_at" type="DATETIME"/>
+            <column name="created_by" type="VARCHAR(255)"/>
+            <column name="updated_at" type="DATETIME"/>
+            <column name="updated_by" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="ps_type" type="VARCHAR(255)"/>
+            <column name="description" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="003.create-profile-table" author="gmky">
+        <preConditions>
+            <not>
+                <tableExists tableName="profile"/>
+            </not>
+        </preConditions>
+        <createTable tableName="profile">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_profile"/>
+            </column>
+            <column name="created_at" type="DATETIME"/>
+            <column name="created_by" type="VARCHAR(255)"/>
+            <column name="updated_at" type="DATETIME"/>
+            <column name="updated_by" type="VARCHAR(255)"/>
+            <column name="username" type="VARCHAR(255)"/>
+            <column name="user_id" type="VARCHAR(255)"/>
+            <column name="full_name" type="VARCHAR(255)"/>
+            <column name="status" type="VARCHAR(10)"/>
+            <column name="dob" type="DATETIME"/>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="locked_at" type="DATETIME"/>
+            <column name="activated_at" type="DATETIME"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="004.create-ps-item-table" author="gmky">
+        <preConditions>
+            <not>
+                <tableExists tableName="ps_item"/>
+            </not>
+        </preConditions>
+        <createTable tableName="ps_item">
+            <column name="permission_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_ps_item"/>
+            </column>
+            <column name="ps_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_ps_item"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="005.create-ps-role-table" author="gmky">
+        <preConditions>
+            <not>
+                <tableExists tableName="ps_role"/>
+            </not>
+        </preConditions>
+        <createTable tableName="ps_role">
+            <column name="ps_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_ps_role"/>
+            </column>
+            <column name="role_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_ps_role"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="006.create-role-table" author="gmky">
+        <preConditions>
+            <not>
+                <tableExists tableName="role"/>
+            </not>
+        </preConditions>
+        <createTable tableName="role">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_role"/>
+            </column>
+            <column name="created_at" type="DATETIME"/>
+            <column name="created_by" type="VARCHAR(255)"/>
+            <column name="updated_at" type="DATETIME"/>
+            <column name="updated_by" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="role_type" type="VARCHAR(255)"/>
+            <column name="is_enable" type="BOOLEAN"/>
+            <column name="is_default" type="BOOLEAN"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="007.create-role-user-table" author="gmky">
+        <preConditions>
+            <not>
+                <tableExists tableName="role_user"/>
+            </not>
+        </preConditions>
+        <createTable tableName="role_user">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_role_user"/>
+            </column>
+            <column name="created_at" type="DATETIME"/>
+            <column name="created_by" type="VARCHAR(255)"/>
+            <column name="updated_at" type="DATETIME"/>
+            <column name="updated_by" type="VARCHAR(255)"/>
+            <column name="user_id" type="VARCHAR(255)"/>
+            <column name="role_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="008.create-fk-role-user-table-role-id-column" author="gmky">
+        <preConditions>
+            <and>
+                <tableExists tableName="role_user"/>
+                <tableExists tableName="role"/>
+            </and>
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="role_user"
+                                 constraintName="FK_ROLE_USER_ON_ROLE" referencedColumnNames="id"
+                                 referencedTableName="role"/>
+    </changeSet>
+    <changeSet id="009.create-fk-ps-item-table-permission-id-column" author="gmky">
+        <preConditions>
+            <and>
+                <tableExists tableName="ps_item"/>
+                <tableExists tableName="permission"/>
+            </and>
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="permission_id" baseTableName="ps_item"
+                                 constraintName="fk_ps_item_on_permission" referencedColumnNames="id"
+                                 referencedTableName="permission"/>
+    </changeSet>
+    <changeSet id="010.create-fk-ps-item-table-ps-id-column" author="gmky">
+        <preConditions>
+            <and>
+                <tableExists tableName="ps_item"/>
+                <tableExists tableName="permission_set"/>
+            </and>
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="ps_id" baseTableName="ps_item"
+                                 constraintName="fk_ps_item_on_permission_set" referencedColumnNames="id"
+                                 referencedTableName="permission_set"/>
+    </changeSet>
+    <changeSet id="011.create-fk-ps-role-table-ps-id-column" author="gmky">
+        <preConditions>
+            <and>
+                <tableExists tableName="ps_role"/>
+                <tableExists tableName="permission_set"/>
+            </and>
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="ps_id" baseTableName="ps_role"
+                                 constraintName="fk_ps_role_on_permission_set" referencedColumnNames="id"
+                                 referencedTableName="permission_set"/>
+    </changeSet>
+    <changeSet id="012.create-fk-ps-role-table-role-id-column" author="gmky">
+        <preConditions>
+            <and>
+                <tableExists tableName="ps_role"/>
+                <tableExists tableName="role"/>
+            </and>
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="ps_role" constraintName="fk_ps_role_on_role"
+                                 referencedColumnNames="id" referencedTableName="role"/>
+    </changeSet>
+
+</databaseChangeLog>
