@@ -1,5 +1,6 @@
 package gmky.core.web.rest.v1;
 
+import gmky.core.aop.EnableFeatureFlag;
 import gmky.core.api.RoleClientApi;
 import gmky.core.api.model.CreateRoleRequest;
 import gmky.core.api.model.UpdateRoleRequest;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static gmky.core.common.Constants.FF_AUTH_ROLE;
 import static gmky.core.utils.ResponseUtil.data;
 import static gmky.core.utils.ResponseUtil.noContent;
 
@@ -26,6 +28,7 @@ public class RoleResource implements RoleClientApi {
     private final RoleService roleService;
 
     @Override
+    @EnableFeatureFlag(FF_AUTH_ROLE)
     @PreAuthorize("hasAuthority('role:create')")
     public ResponseEntity<RoleDto> createRole(CreateRoleRequest createRoleRequest) {
         var result = roleService.createRole(createRoleRequest);
@@ -33,6 +36,7 @@ public class RoleResource implements RoleClientApi {
     }
 
     @Override
+    @EnableFeatureFlag(FF_AUTH_ROLE)
     @PreAuthorize("hasAuthority('role:delete')")
     public ResponseEntity<Void> deleteRoleById(Long id) {
         roleService.deleteById(id);
@@ -40,6 +44,7 @@ public class RoleResource implements RoleClientApi {
     }
 
     @Override
+    @EnableFeatureFlag(FF_AUTH_ROLE)
     @PreAuthorize("hasAnyAuthority('role:view', 'role:edit', 'role:delete', 'role:approve')")
     public ResponseEntity<List<RoleDto>> filterRole(String name, RoleTypeEnum type, Boolean isEnable, Boolean isDefault, Pageable pageable) {
         var page = roleService.filter(name, type, isEnable, isDefault, pageable);
@@ -47,6 +52,7 @@ public class RoleResource implements RoleClientApi {
     }
 
     @Override
+    @EnableFeatureFlag(FF_AUTH_ROLE)
     @PreAuthorize("hasAnyAuthority('role:view', 'role:edit', 'role:delete', 'role:approve')")
     public ResponseEntity<RoleDto> getRoleDetailById(Long id) {
         var result = roleService.findById(id);
@@ -54,6 +60,7 @@ public class RoleResource implements RoleClientApi {
     }
 
     @Override
+    @EnableFeatureFlag(FF_AUTH_ROLE)
     @PreAuthorize("hasAuthority('role:edit')")
     public ResponseEntity<RoleDto> updateRoleById(Long id, UpdateRoleRequest updateRoleRequest) {
         var result = roleService.updateById(id, updateRoleRequest);
@@ -61,6 +68,7 @@ public class RoleResource implements RoleClientApi {
     }
 
     @Override
+    @EnableFeatureFlag(FF_AUTH_ROLE)
     @PreAuthorize("hasAuthority('profile:view') && hasAuthority('role:view')")
     public ResponseEntity<List<ProfileDto>> usersInRoleById(Long id, Pageable pageable) {
         var result = roleService.usersInRoleByRoleId(id, pageable);

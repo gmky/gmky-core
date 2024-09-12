@@ -190,5 +190,27 @@
         <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="ps_role" constraintName="fk_ps_role_on_role"
                                  referencedColumnNames="id" referencedTableName="role"/>
     </changeSet>
+    <changeSet id="013.create-feature-flag-table" author="gmky">
+        <preConditions>
+            <not>
+                <tableExists tableName="feature_flag"/>
+            </not>
+        </preConditions>
+        <createTable tableName="feature_flag">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_feature_flag"/>
+            </column>
+            <column name="key" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="uk_feature_flag_key"/>
+            </column>
+            <column name="state" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="DATETIME"/>
+            <column name="created_by" type="VARCHAR(255)"/>
+            <column name="updated_at" type="DATETIME"/>
+            <column name="updated_by" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
 
 </databaseChangeLog>
