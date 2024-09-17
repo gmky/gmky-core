@@ -1,6 +1,6 @@
 package gmky.core.web.rest.v1;
 
-import gmky.core.aop.EnableFeatureFlag;
+import gmky.core.aop.FeatureFlag;
 import gmky.core.api.AuthClientApi;
 import gmky.core.api.model.LoginRequest;
 import gmky.core.dto.keycloak.LoginWithUsernameAndPasswordResponse;
@@ -16,11 +16,12 @@ import static gmky.core.utils.ResponseUtil.data;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@FeatureFlag(FF_AUTH_LOGIN)
 public class AuthResource implements AuthClientApi {
     private final AuthService authService;
 
     @Override
-    @EnableFeatureFlag(FF_AUTH_LOGIN)
+    @FeatureFlag(FF_AUTH_LOGIN)
     public ResponseEntity<LoginWithUsernameAndPasswordResponse> login(LoginRequest loginRequest) {
         var result = authService.login(loginRequest);
         return data(result);

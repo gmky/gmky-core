@@ -1,6 +1,6 @@
 package gmky.core.web.rest.v1;
 
-import gmky.core.aop.EnableFeatureFlag;
+import gmky.core.aop.FeatureFlag;
 import gmky.core.api.PermissionClientApi;
 import gmky.core.dto.PermissionDto;
 import gmky.core.dto.ProfileDto;
@@ -24,7 +24,7 @@ public class PermissionResource implements PermissionClientApi {
     private final PermissionService permissionService;
 
     @Override
-    @EnableFeatureFlag(FF_AUTH_PERMISSION)
+    @FeatureFlag(FF_AUTH_PERMISSION)
     @PreAuthorize("hasAnyAuthority('permission:view', 'permission:edit', 'permission:approve', 'permission:delete')")
     public ResponseEntity<List<PermissionDto>> filterPermission(String permissionCode, String resourceCode, Pageable pageable) {
         var page = permissionService.filter(permissionCode, resourceCode, pageable);
@@ -32,7 +32,7 @@ public class PermissionResource implements PermissionClientApi {
     }
 
     @Override
-    @EnableFeatureFlag(FF_AUTH_PERMISSION)
+    @FeatureFlag(FF_AUTH_PERMISSION)
     @PreAuthorize("hasAnyAuthority('permission:view', 'permission:edit', 'permission:approve', 'permission:delete')")
     public ResponseEntity<PermissionDto> findById(Long id) {
         var permission = permissionService.findById(id);
@@ -40,7 +40,7 @@ public class PermissionResource implements PermissionClientApi {
     }
 
     @Override
-    @EnableFeatureFlag(FF_AUTH_PERMISSION)
+    @FeatureFlag(FF_AUTH_PERMISSION)
     @PreAuthorize("hasAuthority('profile:view') && hasAuthority('permission:view')")
     public ResponseEntity<List<ProfileDto>> usersHasPermissionById(Long id, Pageable pageable) {
         var page = permissionService.usersHasPermissionById(id, pageable);

@@ -1,6 +1,6 @@
 package gmky.core.web.rest.v1;
 
-import gmky.core.aop.EnableFeatureFlag;
+import gmky.core.aop.FeatureFlag;
 import gmky.core.api.PermissionSetClientApi;
 import gmky.core.api.model.CreatePermissionSetRequest;
 import gmky.core.api.model.UpdatePermissionSetRequest;
@@ -28,7 +28,7 @@ public class PermissionSetResource implements PermissionSetClientApi {
     private final PermissionSetService permissionSetService;
 
     @Override
-    @EnableFeatureFlag(FF_AUTH_PERMISSION_SET)
+    @FeatureFlag(FF_AUTH_PERMISSION_SET)
     @PreAuthorize("hasAuthority('permissionset:create')")
     public ResponseEntity<PermissionSetDto> createPermissionSet(CreatePermissionSetRequest createPermissionSetRequest) {
         var result = permissionSetService.create(createPermissionSetRequest);
@@ -36,7 +36,7 @@ public class PermissionSetResource implements PermissionSetClientApi {
     }
 
     @Override
-    @EnableFeatureFlag(FF_AUTH_PERMISSION_SET)
+    @FeatureFlag(FF_AUTH_PERMISSION_SET)
     @PreAuthorize("hasAuthority('permissionset:delete')")
     public ResponseEntity<Void> deletePermissionSetById(Long id) {
         permissionSetService.deleteById(id);
@@ -44,7 +44,7 @@ public class PermissionSetResource implements PermissionSetClientApi {
     }
 
     @Override
-    @EnableFeatureFlag(FF_AUTH_PERMISSION_SET)
+    @FeatureFlag(FF_AUTH_PERMISSION_SET)
     @PreAuthorize("hasAnyAuthority('permissionset:view', 'permissionset:edit', 'permissionset:delete', 'permissionset:approve')")
     public ResponseEntity<List<PermissionSetDto>> filterPermissionSet(String name, PermissionSetTypeEnum type, Pageable pageable) {
         var page = permissionSetService.filter(name, type, pageable);
@@ -52,7 +52,7 @@ public class PermissionSetResource implements PermissionSetClientApi {
     }
 
     @Override
-    @EnableFeatureFlag(FF_AUTH_PERMISSION_SET)
+    @FeatureFlag(FF_AUTH_PERMISSION_SET)
     @PreAuthorize("hasAnyAuthority('permissionset:view', 'permissionset:edit', 'permissionset:delete', 'permissionset:approve')")
     public ResponseEntity<PermissionSetDto> getPermissionSetDetailById(Long id) {
         var result = permissionSetService.findById(id);
@@ -60,7 +60,7 @@ public class PermissionSetResource implements PermissionSetClientApi {
     }
 
     @Override
-    @EnableFeatureFlag(FF_AUTH_PERMISSION_SET)
+    @FeatureFlag(FF_AUTH_PERMISSION_SET)
     @PreAuthorize("hasAuthority('permissionset:edit')")
     public ResponseEntity<PermissionSetDto> updatePermissionSetById(Long id, UpdatePermissionSetRequest updatePermissionSetRequest) {
         var result = permissionSetService.updateById(id, updatePermissionSetRequest);
@@ -68,7 +68,7 @@ public class PermissionSetResource implements PermissionSetClientApi {
     }
 
     @Override
-    @EnableFeatureFlag(FF_AUTH_PERMISSION_SET)
+    @FeatureFlag(FF_AUTH_PERMISSION_SET)
     @PreAuthorize("hasAuthority('profile:view') && hasAuthority('permissionset:view')")
     public ResponseEntity<List<ProfileDto>> usersInPermissionSetById(Long id, Pageable pageable) {
         var page = permissionSetService.usersInPermissionSetByPermissionSetId(id, pageable);

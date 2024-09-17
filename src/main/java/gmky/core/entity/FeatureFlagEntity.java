@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "feature_flag")
-public class FeatureFlag extends AbstractAuditEntity {
+public class FeatureFlagEntity extends AbstractAuditEntity {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

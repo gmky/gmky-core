@@ -7,9 +7,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface EnableFeatureFlag {
+public @interface FeatureFlag {
     String value() default "";
 
     FeatureFlagEnum defaultValue() default FeatureFlagEnum.OFF;
