@@ -8,8 +8,10 @@ import gmky.core.enumeration.RoleTypeEnum;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface RoleService {
-    Page<RoleDto> filter(String name, RoleTypeEnum type, Boolean isEnable, Boolean isDefault, Pageable pageable);
+    Page<RoleDto> filter(String name, List<RoleTypeEnum> type, Boolean isEnable, Boolean isDefault, Pageable pageable);
 
     RoleDto findById(Long id);
 

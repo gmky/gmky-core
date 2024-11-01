@@ -46,7 +46,7 @@ public class RoleResource implements RoleClientApi {
     @Override
     @FeatureFlag(FF_AUTH_ROLE)
     @PreAuthorize("hasAnyAuthority('role:view', 'role:edit', 'role:delete', 'role:approve')")
-    public ResponseEntity<List<RoleDto>> filterRole(String name, RoleTypeEnum type, Boolean isEnable, Boolean isDefault, Pageable pageable) {
+    public ResponseEntity<List<RoleDto>> filterRole(String name, List<RoleTypeEnum> type, Boolean isEnable, Boolean isDefault, Pageable pageable) {
         var page = roleService.filter(name, type, isEnable, isDefault, pageable);
         return data(page);
     }

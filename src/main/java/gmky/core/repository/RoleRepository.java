@@ -14,12 +14,12 @@ import java.util.List;
 public interface RoleRepository extends JpaRepository<Role, Long>, JpaSpecificationExecutor<Role> {
     @Query("""
                 SELECT r FROM Role r
-                    WHERE (:type IS NULL OR r.type = :type)
+                    WHERE r.type IN :types
                     AND (NULLIF(:name, '') IS NULL OR r.name LIKE :name% )
                     AND (:isEnable IS NULL OR r.isEnable = :isEnable)
                     AND (:isDefault IS NULL OR r.isDefault = :isDefault)
             """)
-    Page<Role> filter(String name, RoleTypeEnum type, Boolean isEnable, Boolean isDefault, Pageable pageable);
+    Page<Role> filter(String name, List<RoleTypeEnum> types, Boolean isEnable, Boolean isDefault, Pageable pageable);
 
     @Modifying
     @Query(nativeQuery = true, value = "DELETE FROM ps_role psr WHERE psr.role_id = :roleId AND psr.ps_id IN :psIdList")

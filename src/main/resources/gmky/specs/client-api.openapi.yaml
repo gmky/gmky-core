@@ -189,7 +189,9 @@ paths:
           name: type
           description: Type of role
           schema:
-            $ref: '#/components/schemas/RoleTypeEnum'
+            type: array
+            items:
+              $ref: '#/components/schemas/RoleTypeEnum'
         - in: query
           name: isEnable
           description: Is those role are enable

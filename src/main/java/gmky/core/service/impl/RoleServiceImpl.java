@@ -37,7 +37,7 @@ public class RoleServiceImpl implements RoleService {
     private final ProfileMapper profileMapper;
 
     @Override
-    public Page<RoleDto> filter(String name, RoleTypeEnum type, Boolean isEnable, Boolean isDefault, Pageable pageable) {
+    public Page<RoleDto> filter(String name, List<RoleTypeEnum> type, Boolean isEnable, Boolean isDefault, Pageable pageable) {
         var page = roleRepository.filter(name, type, isEnable, isDefault, pageable);
         return page.map(roleMapper::toDto);
     }
@@ -91,6 +91,7 @@ public class RoleServiceImpl implements RoleService {
         if (existed) throw new BadRequestException(ROLE_NAME_EXISTED);
 
         var role = roleMapper.toEntity(request);
+        role.setType(RoleTypeEnum.CUSTOM);
         role = roleRepository.save(role);
 
         addPermissionSet(role.getId(), request.getPsIdList());
