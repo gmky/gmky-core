@@ -17,8 +17,7 @@ public class KeycloakApiConfiguration {
     private String keycloakUri;
 
     @Bean
-    @ConditionalOnMissingBean(RestTemplate.class)
-    public RestTemplate restTemplate() {
+    public RestTemplate keycloakRestTemplate() {
         return new RestTemplate();
     }
 
@@ -26,7 +25,7 @@ public class KeycloakApiConfiguration {
     @ConditionalOnMissingBean(KeycloakClientApi.class)
     public KeycloakClientApi keycloakClientApi() {
         var keycloakClientApi = new KeycloakClientApi();
-        var apiClient = new ApiClient();
+        var apiClient = new ApiClient(keycloakRestTemplate());
         apiClient.setBasePath(keycloakUri);
         keycloakClientApi.setApiClient(apiClient);
         return keycloakClientApi;

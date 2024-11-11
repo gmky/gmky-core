@@ -3,6 +3,7 @@ package gmky.core.web.rest.v1;
 import gmky.core.aop.FeatureFlag;
 import gmky.core.api.RoleClientApi;
 import gmky.core.api.model.CreateRoleRequest;
+import gmky.core.api.model.FilterRoleResponse;
 import gmky.core.api.model.UpdateRoleRequest;
 import gmky.core.dto.ProfileDto;
 import gmky.core.dto.RoleDto;
@@ -46,7 +47,7 @@ public class RoleResource implements RoleClientApi {
     @Override
     @FeatureFlag(FF_AUTH_ROLE)
     @PreAuthorize("hasAnyAuthority('role:view', 'role:edit', 'role:delete', 'role:approve')")
-    public ResponseEntity<List<RoleDto>> filterRole(String name, List<RoleTypeEnum> type, Boolean isEnable, Boolean isDefault, Pageable pageable) {
+    public ResponseEntity<FilterRoleResponse> filterRole(String name, List<RoleTypeEnum> type, Boolean isEnable, Boolean isDefault, Pageable pageable) {
         var page = roleService.filter(name, type, isEnable, isDefault, pageable);
         return data(page);
     }

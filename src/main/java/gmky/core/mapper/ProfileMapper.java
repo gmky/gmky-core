@@ -1,10 +1,14 @@
 package gmky.core.mapper;
 
+import gmky.core.api.model.CreateUserRequest;
+import gmky.core.api.model.FilterUserResponse;
 import gmky.core.api.model.UpdateUserRequest;
 import gmky.core.dto.ProfileDto;
 import gmky.core.dto.keycloak.KeycloakUserInfo;
 import gmky.core.entity.Profile;
+import gmky.core.keycloak.api.model.KeycloakAdminCreateUserRequest;
 import org.mapstruct.*;
+import org.springframework.data.domain.Page;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface ProfileMapper extends EntityMapper<ProfileDto, Profile> {
@@ -17,4 +21,14 @@ public interface ProfileMapper extends EntityMapper<ProfileDto, Profile> {
     @Mapping(target = "status", expression = "java(gmky.core.enumeration.UserStatusEnum.ACTIVE)")
     @Mapping(target = "email", source = "email")
     Profile fromUserInfo(KeycloakUserInfo kcUserInfo);
+
+    @Mapping(target = "data", source = "content")
+    @Mapping(target = "meta.total", source = "totalElements")
+    @Mapping(target = "meta.page", source = "number")
+    @Mapping(target = "meta.size", source = "size")
+    FilterUserResponse toResponse(Page<Profile> page);
+
+    KeycloakAdminCreateUserRequest toKeycloakRequest(CreateUserRequest request);
+
+    Profile toEntity(CreateUserRequest request);
 }

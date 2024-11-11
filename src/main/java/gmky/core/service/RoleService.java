@@ -1,6 +1,7 @@
 package gmky.core.service;
 
 import gmky.core.api.model.CreateRoleRequest;
+import gmky.core.api.model.FilterRoleResponse;
 import gmky.core.api.model.UpdateRoleRequest;
 import gmky.core.dto.ProfileDto;
 import gmky.core.dto.RoleDto;
@@ -11,7 +12,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface RoleService {
-    Page<RoleDto> filter(String name, List<RoleTypeEnum> type, Boolean isEnable, Boolean isDefault, Pageable pageable);
+    FilterRoleResponse filter(String name, List<RoleTypeEnum> type, Boolean isEnable, Boolean isDefault, Pageable pageable);
 
     RoleDto findById(Long id);
 

@@ -3,7 +3,9 @@ package gmky.core.web.rest.v1;
 import gmky.core.aop.FeatureFlag;
 import gmky.core.api.PermissionSetClientApi;
 import gmky.core.api.model.CreatePermissionSetRequest;
+import gmky.core.api.model.FilterPermissionSetResponse;
 import gmky.core.api.model.UpdatePermissionSetRequest;
+import gmky.core.dto.PermissionDto;
 import gmky.core.dto.PermissionSetDto;
 import gmky.core.dto.ProfileDto;
 import gmky.core.enumeration.PermissionSetTypeEnum;
@@ -46,9 +48,16 @@ public class PermissionSetResource implements PermissionSetClientApi {
     @Override
     @FeatureFlag(FF_AUTH_PERMISSION_SET)
     @PreAuthorize("hasAnyAuthority('permissionset:view', 'permissionset:edit', 'permissionset:delete', 'permissionset:approve')")
-    public ResponseEntity<List<PermissionSetDto>> filterPermissionSet(String name, PermissionSetTypeEnum type, Pageable pageable) {
-        var page = permissionSetService.filter(name, type, pageable);
+    public ResponseEntity<FilterPermissionSetResponse> filterPermissionSet(String name, List<PermissionSetTypeEnum> types, Pageable pageable) {
+        var page = permissionSetService.filter(name, types, pageable);
         return data(page);
+    }
+
+    @Override
+    @FeatureFlag(FF_AUTH_PERMISSION_SET)
+    @PreAuthorize("hasAnyAuthority('permissionset:view')")
+    public ResponseEntity<List<PermissionDto>> getAssignedPsById(Long id) {
+        return data(permissionSetService.getAssignedPermissionById(id));
     }
 
     @Override

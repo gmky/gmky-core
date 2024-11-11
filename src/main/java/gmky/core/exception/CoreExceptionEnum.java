@@ -19,7 +19,10 @@ public enum CoreExceptionEnum {
     PERMISSION_SET_NOT_EMPTY("G-0011", "Permission Set Not Empty"),
     ROLE_NOT_EMPTY("G-0012", "Role Not Empty"),
     ROLE_NAME_EXISTED("G-0013", "Role Name Existed"),
-    PERMISSION_SET_NAME_EXISTED("G-0014", "Permission Set Name Existed");
+    PERMISSION_SET_NAME_EXISTED("G-0014", "Permission Set Name Existed"),
+    UNDER_MAINTENANCE("G-0015", "Feature under maintenance"),
+    USERNAME_EXISTED("G-0016", "Username existed"),
+    ;
 
     private final String code;
     private final String message;

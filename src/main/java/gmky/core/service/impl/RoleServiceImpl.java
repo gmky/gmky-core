@@ -1,6 +1,7 @@
 package gmky.core.service.impl;
 
 import gmky.core.api.model.CreateRoleRequest;
+import gmky.core.api.model.FilterRoleResponse;
 import gmky.core.api.model.UpdateRoleRequest;
 import gmky.core.dto.ProfileDto;
 import gmky.core.dto.RoleDto;
@@ -37,9 +38,9 @@ public class RoleServiceImpl implements RoleService {
     private final ProfileMapper profileMapper;
 
     @Override
-    public Page<RoleDto> filter(String name, List<RoleTypeEnum> type, Boolean isEnable, Boolean isDefault, Pageable pageable) {
+    public FilterRoleResponse filter(String name, List<RoleTypeEnum> type, Boolean isEnable, Boolean isDefault, Pageable pageable) {
         var page = roleRepository.filter(name, type, isEnable, isDefault, pageable);
-        return page.map(roleMapper::toDto);
+        return roleMapper.toResponse(page);
     }
 
     @Override

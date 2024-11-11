@@ -2,7 +2,8 @@ package gmky.core.aop;
 
 import gmky.core.entity.FeatureFlagEntity;
 import gmky.core.enumeration.FeatureFlagEnum;
-import gmky.core.exception.NotFoundException;
+import gmky.core.exception.BadRequestException;
+import gmky.core.exception.CoreExceptionEnum;
 import gmky.core.repository.FeatureFlagRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,13 +19,11 @@ public class FeatureFlagAspect {
 
     @Before("@annotation(featureFlag)")
     public void featureFlag(JoinPoint joinPoint, FeatureFlag featureFlag) {
-        log.info("Check for method");
         checkFeatureFlag(featureFlag);
     }
 
     @Before("within(@org.springframework.web.bind.annotation.RestController *)")
     public void featureFlag(JoinPoint joinPoint) {
-        log.info("Check for class");
         Class<?> targetClass = joinPoint.getTarget().getClass();
         if (targetClass.isAnnotationPresent(FeatureFlag.class)) {
             FeatureFlag featureFlag = targetClass.getAnnotation(FeatureFlag.class);
@@ -38,7 +37,7 @@ public class FeatureFlagAspect {
         var featureFlagState = featureFlagRepository.findByKey(key).map(FeatureFlagEntity::getState).orElse(defaultValue);
         if (featureFlagState == FeatureFlagEnum.OFF) {
             log.warn("Feature flag [{}] is OFF", key);
-            throw new NotFoundException();
+            throw new BadRequestException(CoreExceptionEnum.UNDER_MAINTENANCE);
         }
     }
 }

@@ -28,6 +28,10 @@ public class ResponseUtil {
         return ResponseEntity.ok().build();
     }
 
+    public static ResponseEntity<Void> created() {
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
     public static <T> HttpHeaders generatePaginationHeader(ServletUriComponentsBuilder uriBuilder, Page<T> page) {
         HttpHeaders headers = new HttpHeaders();
         if (page == null) return headers;

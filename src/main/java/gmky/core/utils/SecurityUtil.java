@@ -2,10 +2,12 @@ package gmky.core.utils;
 
 import gmky.core.service.impl.ApplicationContextProvider;
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.jwt.Jwt;
 
+@Slf4j
 @UtilityClass
 public class SecurityUtil {
     public static final String USER_ID_CLAIM_KEY = "sub";
@@ -23,6 +25,17 @@ public class SecurityUtil {
         } else if (principal instanceof Jwt jwt) {
             var claimName = ApplicationContextProvider.getProperty(PRINCIPAL_CLAIM_KEY_PROPERTY);
             return jwt.getClaimAsString(claimName);
+        }
+        return null;
+    }
+
+    public static String getToken() {
+        var ctxHolder = SecurityContextHolder.getContext();
+        var authentication = ctxHolder.getAuthentication();
+        if (authentication == null) return null;
+        var principal = authentication.getPrincipal();
+        if (principal instanceof Jwt jwt) {
+            return jwt.getTokenValue();
         }
         return null;
     }

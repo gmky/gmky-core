@@ -12,5 +12,5 @@ import java.lang.annotation.Target;
 public @interface FeatureFlag {
     String value() default "";
 
-    FeatureFlagEnum defaultValue() default FeatureFlagEnum.OFF;
+    FeatureFlagEnum defaultValue() default FeatureFlagEnum.ON;
 }

@@ -13,10 +13,10 @@ import java.util.List;
 
 public interface PermissionSetRepository extends JpaRepository<PermissionSet, Long>, JpaSpecificationExecutor<PermissionSet> {
     @Query(value = """
-                SELECT ps FROM PermissionSet ps WHERE (NULLIF(:name, '') IS NULL OR ps.name LIKE :name%)
-                    AND (:type IS NULL OR ps.type = :type)
+                SELECT ps FROM PermissionSet ps WHERE (NULLIF(:name, '') IS NULL OR UPPER(ps.name) LIKE UPPER(CONCAT(:name, '%')))
+                    AND ps.type IN :types
             """)
-    Page<PermissionSet> filter(String name, PermissionSetTypeEnum type, Pageable pageable);
+    Page<PermissionSet> filter(String name, List<PermissionSetTypeEnum> types, Pageable pageable);
 
     @Modifying
     @Query(nativeQuery = true, value = "DELETE FROM ps_item psi WHERE psi.ps_id = :psId AND psi.permission_id IN :permissionIds")

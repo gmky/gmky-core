@@ -16,6 +16,8 @@ public interface ProfileRepository extends JpaRepository<Profile, Long>, JpaSpec
 
     Optional<Profile> findByUserId(String userId);
 
+    boolean existsByUsername(String username);
+
     @Query(value = """
                 SELECT p FROM Profile p WHERE (NULLIF(:username, '') IS NULL OR p.username LIKE :username%)
                     AND (NULLIF(:email, '') IS NULL OR p.email LIKE :email%)

@@ -10,47 +10,61 @@ INSERT INTO permission(id, created_at, created_by, updated_at, updated_by, permi
 INSERT INTO permission(id, created_at, created_by, updated_at, updated_by, permission_code, resource_code,
                        description) value (4, NOW(), 'system', NOW(), 'system', 'approve', 'permission',
                                            'Approve permission');
+INSERT INTO permission(id, created_at, created_by, updated_at, updated_by, permission_code, resource_code,
+                       description) value (5, NOW(), 'system', NOW(), 'system', 'create', 'permission',
+                                           'Approve permission');
 
 INSERT INTO permission(id, created_at, created_by, updated_at, updated_by, permission_code, resource_code,
-                       description) value (5, NOW(), 'system', NOW(), 'system', 'view', 'permissionset',
+                       description) value (6, NOW(), 'system', NOW(), 'system', 'view', 'permissionset',
                                            'View permission set');
 INSERT INTO permission(id, created_at, created_by, updated_at, updated_by, permission_code, resource_code,
-                       description) value (6, NOW(), 'system', NOW(), 'system', 'edit', 'permissionset',
+                       description) value (7, NOW(), 'system', NOW(), 'system', 'edit', 'permissionset',
                                            'Edit permission set');
 INSERT INTO permission(id, created_at, created_by, updated_at, updated_by, permission_code, resource_code,
-                       description) value (7, NOW(), 'system', NOW(), 'system', 'delete', 'permissionset',
+                       description) value (8, NOW(), 'system', NOW(), 'system', 'delete', 'permissionset',
                                            'Delete permission set');
 INSERT INTO permission(id, created_at, created_by, updated_at, updated_by, permission_code, resource_code,
-                       description) value (8, NOW(), 'system', NOW(), 'system', 'approve', 'permissionset',
+                       description) value (9, NOW(), 'system', NOW(), 'system', 'approve', 'permissionset',
+                                           'Approve permission set');
+INSERT INTO permission(id, created_at, created_by, updated_at, updated_by, permission_code, resource_code,
+                       description) value (10, NOW(), 'system', NOW(), 'system', 'create', 'permissionset',
                                            'Approve permission set');
 
 INSERT INTO permission(id, created_at, created_by, updated_at, updated_by, permission_code, resource_code,
-                       description) value (9, NOW(), 'system', NOW(), 'system', 'view', 'role', 'View role');
+                       description) value (11, NOW(), 'system', NOW(), 'system', 'view', 'role', 'View role');
 INSERT INTO permission(id, created_at, created_by, updated_at, updated_by, permission_code, resource_code,
-                       description) value (10, NOW(), 'system', NOW(), 'system', 'edit', 'role', 'Edit role');
+                       description) value (12, NOW(), 'system', NOW(), 'system', 'edit', 'role', 'Edit role');
 INSERT INTO permission(id, created_at, created_by, updated_at, updated_by, permission_code, resource_code,
-                       description) value (11, NOW(), 'system', NOW(), 'system', 'delete', 'role', 'Delete role');
+                       description) value (13, NOW(), 'system', NOW(), 'system', 'delete', 'role', 'Delete role');
 INSERT INTO permission(id, created_at, created_by, updated_at, updated_by, permission_code, resource_code,
-                       description) value (12, NOW(), 'system', NOW(), 'system', 'approve', 'role', 'Approve role');
+                       description) value (14, NOW(), 'system', NOW(), 'system', 'approve', 'role', 'Approve role');
+INSERT INTO permission(id, created_at, created_by, updated_at, updated_by, permission_code, resource_code,
+                       description) value (15, NOW(), 'system', NOW(), 'system', 'create', 'role', 'Approve role');
 
 INSERT INTO permission(id, created_at, created_by, updated_at, updated_by, permission_code, resource_code,
-                       description) value (13, NOW(), 'system', NOW(), 'system', 'view', 'profile', 'View profile');
+                       description) value (16, NOW(), 'system', NOW(), 'system', 'view', 'profile', 'View profile');
 INSERT INTO permission(id, created_at, created_by, updated_at, updated_by, permission_code, resource_code,
-                       description) value (14, NOW(), 'system', NOW(), 'system', 'edit', 'profile', 'Edit profile');
+                       description) value (17, NOW(), 'system', NOW(), 'system', 'edit', 'profile', 'Edit profile');
 INSERT INTO permission(id, created_at, created_by, updated_at, updated_by, permission_code, resource_code,
-                       description) value (15, NOW(), 'system', NOW(), 'system', 'delete', 'profile', 'Delete profile');
+                       description) value (18, NOW(), 'system', NOW(), 'system', 'delete', 'profile', 'Delete profile');
 INSERT INTO permission(id, created_at, created_by, updated_at, updated_by, permission_code, resource_code,
-                       description) value (16, NOW(), 'system', NOW(), 'system', 'approve', 'profile',
+                       description) value (19, NOW(), 'system', NOW(), 'system', 'approve', 'profile',
+                                           'Approve profile');
+INSERT INTO permission(id, created_at, created_by, updated_at, updated_by, permission_code, resource_code,
+                       description) value (20, NOW(), 'system', NOW(), 'system', 'create', 'profile',
                                            'Approve profile');
 
 INSERT INTO permission(id, created_at, created_by, updated_at, updated_by, permission_code, resource_code,
-                       description) value (17, NOW(), 'system', NOW(), 'system', 'view', 'user', 'View user');
+                       description) value (21, NOW(), 'system', NOW(), 'system', 'view', 'user', 'View user');
 INSERT INTO permission(id, created_at, created_by, updated_at, updated_by, permission_code, resource_code,
-                       description) value (18, NOW(), 'system', NOW(), 'system', 'edit', 'user', 'Edit user');
+                       description) value (22, NOW(), 'system', NOW(), 'system', 'edit', 'user', 'Edit user');
 INSERT INTO permission(id, created_at, created_by, updated_at, updated_by, permission_code, resource_code,
-                       description) value (19, NOW(), 'system', NOW(), 'system', 'delete', 'user', 'Delete user');
+                       description) value (23, NOW(), 'system', NOW(), 'system', 'delete', 'user', 'Delete user');
 INSERT INTO permission(id, created_at, created_by, updated_at, updated_by, permission_code, resource_code,
-                       description) value (20, NOW(), 'system', NOW(), 'system', 'approve', 'user',
+                       description) value (24, NOW(), 'system', NOW(), 'system', 'approve', 'user',
+                                           'Approve user');
+INSERT INTO permission(id, created_at, created_by, updated_at, updated_by, permission_code, resource_code,
+                       description) value (25, NOW(), 'system', NOW(), 'system', 'create', 'user',
                                            'Approve user');
 
 # Create permission set
@@ -101,26 +115,32 @@ INSERT INTO ps_item(permission_id, ps_id) VALUE (1, 1);
 INSERT INTO ps_item(permission_id, ps_id) VALUE (2, 1);
 INSERT INTO ps_item(permission_id, ps_id) VALUE (3, 1);
 INSERT INTO ps_item(permission_id, ps_id) VALUE (4, 1);
+INSERT INTO ps_item(permission_id, ps_id) VALUE (5, 1);
 
-INSERT INTO ps_item(permission_id, ps_id) VALUE (5, 2);
 INSERT INTO ps_item(permission_id, ps_id) VALUE (6, 2);
 INSERT INTO ps_item(permission_id, ps_id) VALUE (7, 2);
 INSERT INTO ps_item(permission_id, ps_id) VALUE (8, 2);
+INSERT INTO ps_item(permission_id, ps_id) VALUE (9, 2);
+INSERT INTO ps_item(permission_id, ps_id) VALUE (10, 2);
 
-INSERT INTO ps_item(permission_id, ps_id) VALUE (9, 3);
 INSERT INTO ps_item(permission_id, ps_id) VALUE (10, 3);
 INSERT INTO ps_item(permission_id, ps_id) VALUE (11, 3);
 INSERT INTO ps_item(permission_id, ps_id) VALUE (12, 3);
+INSERT INTO ps_item(permission_id, ps_id) VALUE (13, 3);
+INSERT INTO ps_item(permission_id, ps_id) VALUE (14, 3);
 
-INSERT INTO ps_item(permission_id, ps_id) VALUE (13, 4);
-INSERT INTO ps_item(permission_id, ps_id) VALUE (14, 4);
 INSERT INTO ps_item(permission_id, ps_id) VALUE (15, 4);
 INSERT INTO ps_item(permission_id, ps_id) VALUE (16, 4);
+INSERT INTO ps_item(permission_id, ps_id) VALUE (17, 4);
+INSERT INTO ps_item(permission_id, ps_id) VALUE (18, 4);
+INSERT INTO ps_item(permission_id, ps_id) VALUE (19, 4);
 
-INSERT INTO ps_item(permission_id, ps_id) VALUE (17, 5);
-INSERT INTO ps_item(permission_id, ps_id) VALUE (18, 5);
-INSERT INTO ps_item(permission_id, ps_id) VALUE (19, 5);
 INSERT INTO ps_item(permission_id, ps_id) VALUE (20, 5);
+INSERT INTO ps_item(permission_id, ps_id) VALUE (21, 5);
+INSERT INTO ps_item(permission_id, ps_id) VALUE (22, 5);
+INSERT INTO ps_item(permission_id, ps_id) VALUE (23, 5);
+INSERT INTO ps_item(permission_id, ps_id) VALUE (24, 5);
+INSERT INTO ps_item(permission_id, ps_id) VALUE (25, 5);
 
 # Create role
 INSERT INTO role(id, created_at, created_by, updated_at, updated_by, name, description, role_type, is_enable,

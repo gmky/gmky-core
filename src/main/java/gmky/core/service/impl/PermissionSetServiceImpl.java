@@ -1,13 +1,16 @@
 package gmky.core.service.impl;
 
 import gmky.core.api.model.CreatePermissionSetRequest;
+import gmky.core.api.model.FilterPermissionSetResponse;
 import gmky.core.api.model.UpdatePermissionSetRequest;
+import gmky.core.dto.PermissionDto;
 import gmky.core.dto.PermissionSetDto;
 import gmky.core.dto.ProfileDto;
 import gmky.core.enumeration.PermissionSetTypeEnum;
 import gmky.core.exception.BadRequestException;
 import gmky.core.exception.ForbiddenException;
 import gmky.core.exception.NotFoundException;
+import gmky.core.mapper.PermissionMapper;
 import gmky.core.mapper.PermissionSetMapper;
 import gmky.core.mapper.ProfileMapper;
 import gmky.core.repository.PermissionRepository;
@@ -32,14 +35,15 @@ import static gmky.core.exception.CoreExceptionEnum.*;
 public class PermissionSetServiceImpl implements PermissionSetService {
     private final PermissionSetRepository permissionSetRepository;
     private final PermissionSetMapper permissionSetMapper;
+    private final PermissionMapper permissionMapper;
     private final PermissionRepository permissionRepository;
     private final ProfileRepository profileRepository;
     private final ProfileMapper profileMapper;
 
     @Override
-    public Page<PermissionSetDto> filter(String name, PermissionSetTypeEnum type, Pageable pageable) {
-        var page = permissionSetRepository.filter(name, type, pageable);
-        return page.map(permissionSetMapper::toDto);
+    public FilterPermissionSetResponse filter(String name, List<PermissionSetTypeEnum> types, Pageable pageable) {
+        var page = permissionSetRepository.filter(name, types, pageable);
+        return permissionSetMapper.toResponse(page);
     }
 
     @Override
@@ -87,16 +91,24 @@ public class PermissionSetServiceImpl implements PermissionSetService {
     }
 
     @Override
+    @Transactional
     public PermissionSetDto create(CreatePermissionSetRequest request) {
         var existed = permissionSetRepository.existsByNameIgnoreCase(request.getName());
         if (existed) throw new BadRequestException(PERMISSION_SET_NAME_EXISTED);
 
         var permissionSet = permissionSetMapper.toEntity(request);
+        permissionSet.setType(PermissionSetTypeEnum.CUSTOM);
         permissionSet = permissionSetRepository.save(permissionSet);
 
         addPermission(permissionSet.getId(), request.getPermissionIds());
 
         return permissionSetMapper.toDto(permissionSet);
+    }
+
+    @Override
+    public List<PermissionDto> getAssignedPermissionById(Long id) {
+        var ps = permissionSetRepository.findById(id).orElseThrow(() -> new NotFoundException(PERMISSION_SET_NOT_FOUND));
+        return permissionMapper.toDtoList(ps.getPermissions().stream().toList());
     }
 
     private void removePermission(Long psId, List<Long> permissionIds) {

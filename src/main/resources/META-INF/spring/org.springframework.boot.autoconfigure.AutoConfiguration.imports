@@ -5,3 +5,4 @@ gmky.core.config.AuditorConfiguration
 gmky.core.config.SwaggerConfiguration
 gmky.core.config.SecurityConfiguration
 gmky.core.config.KeycloakApiConfiguration
+gmky.core.config.KeycloakAdminApiConfiguration

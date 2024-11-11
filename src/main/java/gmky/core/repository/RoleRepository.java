@@ -32,4 +32,9 @@ public interface RoleRepository extends JpaRepository<Role, Long>, JpaSpecificat
     boolean existsByNameIgnoreCase(String name);
 
     boolean existsByNameIgnoreCaseAndIdNot(String name, Long id);
+
+    @Query("""
+        SELECT r FROM Role r LEFT JOIN RoleUser ru ON ru.role.id = r.id WHERE ru.userId = :userId
+    """)
+    List<Role> getAssignedRoleByUserId(String userId);
 }

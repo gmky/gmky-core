@@ -1,5 +1,6 @@
 package gmky.core.service.impl;
 
+import gmky.core.api.model.FilterPermissionResponse;
 import gmky.core.dto.PermissionDto;
 import gmky.core.dto.ProfileDto;
 import gmky.core.exception.NotFoundException;
@@ -26,9 +27,9 @@ public class PermissionServiceImpl implements PermissionService {
     private final ProfileMapper profileMapper;
 
     @Override
-    public Page<PermissionDto> filter(String permissionCode, String resourceCode, Pageable pageable) {
+    public FilterPermissionResponse filter(String permissionCode, String resourceCode, Pageable pageable) {
         var page = permissionRepository.filter(permissionCode, resourceCode, pageable);
-        return page.map(permissionMapper::toDto);
+        return permissionMapper.toResponse(page);
     }
 
     @Override

@@ -59,9 +59,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/PermissionDto'
+                $ref: '#/components/schemas/FilterPermissionResponse'
   /client-api/v1/permissions/{id}:
     get:
       summary: Get permission detail
@@ -94,7 +92,9 @@ paths:
           description: Type of permission set
           in: query
           schema:
-            $ref: '#/components/schemas/PermissionSetTypeEnum'
+            type: array
+            items:
+              $ref: '#/components/schemas/PermissionSetTypeEnum'
         - $ref: '#/components/parameters/pageable'
       responses:
         200:
@@ -102,9 +102,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/PermissionSetDto'
+                $ref: '#/components/schemas/FilterPermissionSetResponse'
     post:
       summary: Add permission set
       description: Add new permission set
@@ -172,6 +170,28 @@ paths:
           description: Delete permission set successfully
           content:
             application/json: { }
+  /client-api/v1/permission-set/{id}/permissions:
+    parameters:
+      - name: id
+        in: path
+        schema:
+          type: integer
+          format: int64
+    get:
+      summary: Get assigned permission
+      description: Get assigned permission by permission set ID
+      operationId: getAssignedPsById
+      tags:
+        - Permission Set Client
+      responses:
+        200:
+          description: Get assigned permission
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PermissionDto'
   /client-api/v1/roles:
     get:
       summary: Filter role
@@ -209,9 +229,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/RoleDto'
+                $ref: '#/components/schemas/FilterRoleResponse'
     post:
       summary: Create new role
       description: Create new role
@@ -345,6 +363,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProfileDto'
+  /client-api/v1/users/{userId}/roles:
+    parameters:
+      - $ref: '#/components/parameters/userId'
+    get:
+      summary: Get assigned roles of user
+      description: Get assigned roles of user
+      operationId: getUserRole
+      tags:
+        - User Client
+      responses:
+        200:
+          description: Result
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleDto'
   /client-api/v1/metadata/user-status:
     get:
       summary: Get user status list
@@ -394,9 +430,23 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ProfileDto'
+                $ref: '#/components/schemas/FilterUserResponse'
+    post:
+      summary: Create user
+      description: Create new user
+      operationId: createUser
+      tags:
+        - User Client
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+      responses:
+        201:
+          description: Created
+          content:
+            application/json: {}
   /client-api/v1/roles/{id}/users:
     get:
       description: Get users in role
@@ -454,6 +504,24 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ProfileDto'
+  /client-api/v1/users/{userId}/logout:
+    parameters:
+      - in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+    post:
+      summary: Logout all session of user
+      description: Logout all session of user
+      operationId: logoutAllByUserId
+      tags:
+        - User Client
+      responses:
+        200:
+          description: Logged out
+          content:
+            application/json: {}
 components:
   parameters:
     pageable:
@@ -478,6 +546,15 @@ components:
       schema:
         type: string
   schemas:
+    PageInfo:
+      type: object
+      properties:
+        page:
+          type: integer
+        total:
+          type: integer
+        size:
+          type: integer
     Pageable:
       type: object
       properties:
@@ -501,6 +578,15 @@ components:
         - ACTIVE
         - PENDING
         - LOCKED
+    FilterPermissionResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/PermissionDto'
+        meta:
+          $ref: '#/components/schemas/PageInfo'
     PermissionDto:
       type: object
       properties:
@@ -515,6 +601,15 @@ components:
         - id
         - permissionCode
         - resourceCode
+    FilterPermissionSetResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/PermissionSetDto'
+        meta:
+          $ref: '#/components/schemas/PageInfo'
     PermissionSetDto:
       type: object
       properties:
@@ -529,6 +624,15 @@ components:
         - id
         - name
         - type
+    FilterRoleResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleDto'
+        meta:
+          $ref: '#/components/schemas/PageInfo'
     RoleDto:
       type: object
       properties:
@@ -545,6 +649,15 @@ components:
           type: boolean
         isDefault:
           type: boolean
+    FilterUserResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProfileDto'
+        meta:
+          $ref: '#/components/schemas/PageInfo'
     ProfileDto:
       type: object
       properties:
@@ -681,3 +794,36 @@ components:
       properties:
         accessToken:
           type: string
+    CreateUserRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        isTemporaryPassword:
+          type: boolean
+        emailVerified:
+          type: boolean
+        firstName:
+          type: string
+        lastName:
+          type: string
+        status:
+          $ref: '#/components/schemas/UserStatusEnum'
+        roles:
+          type: array
+          items:
+            type: integer
+            format: int64
+      required:
+        - username
+        - email
+        - password
+        - isTemporaryPassword
+        - emailVerified
+        - firstName
+        - lastName
+        - status

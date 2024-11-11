@@ -32,7 +32,7 @@ public class AuthServiceImpl implements AuthService {
     public LoginWithUsernameAndPasswordResponse login(LoginRequest request) {
         var tokenInfo = keycloakClientApi.loginWithUsernameAndPassword(KEYCLOAK_DEFAULT_GRANT_TYPE, clientId, clientSecret, request.getUsername(), request.getPassword(), KEYCLOAK_DEFAULT_SCOPE);
         var userInfo = keycloakClientApi.getCurrentUserInfo(buildAuthorizationHeader(tokenInfo.getAccessToken()));
-        var profile = profileRepository.findByUserId(userInfo.getSub()).orElse(null);
+        var profile = profileRepository.findByUsername(userInfo.getPreferredUsername()).orElse(null);
         if (profile == null) {
             profile = profileMapper.fromUserInfo(userInfo);
             profileRepository.save(profile);

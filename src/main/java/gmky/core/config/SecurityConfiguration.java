@@ -46,6 +46,7 @@ public class SecurityConfiguration {
                         .requestMatchers(new AntPathRequestMatcher("/v3/api-docs/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/swagger-ui/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/client-api/v1/auth/login")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/client-api/v1/summary")).permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth -> oauth.jwt(jwt -> jwt.jwtAuthenticationConverter(authenticationConverter())))
                 .build();

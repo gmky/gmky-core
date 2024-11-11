@@ -2,6 +2,7 @@ package gmky.core.web.rest.v1;
 
 import gmky.core.aop.FeatureFlag;
 import gmky.core.api.PermissionClientApi;
+import gmky.core.api.model.FilterPermissionResponse;
 import gmky.core.dto.PermissionDto;
 import gmky.core.dto.ProfileDto;
 import gmky.core.service.PermissionService;
@@ -26,7 +27,7 @@ public class PermissionResource implements PermissionClientApi {
     @Override
     @FeatureFlag(FF_AUTH_PERMISSION)
     @PreAuthorize("hasAnyAuthority('permission:view', 'permission:edit', 'permission:approve', 'permission:delete')")
-    public ResponseEntity<List<PermissionDto>> filterPermission(String permissionCode, String resourceCode, Pageable pageable) {
+    public ResponseEntity<FilterPermissionResponse> filterPermission(String permissionCode, String resourceCode, Pageable pageable) {
         var page = permissionService.filter(permissionCode, resourceCode, pageable);
         return data(page);
     }

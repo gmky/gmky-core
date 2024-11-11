@@ -6,6 +6,8 @@ info:
 tags:
   - name: Keycloak Client
     description: Authentication
+  - name: Keycloak Admin Client
+    description: Keycloak Admin Client
 servers:
   - url: https://lemur-7.cloud-iam.com/auth/realms/gmky
     description: Keycloak DEV
@@ -49,7 +51,83 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/KeycloakUserInfo'
+  /users:
+    post:
+      summary: Create new users
+      description: Create new users
+      operationId: createUser
+      tags:
+        - Keycloak Admin Client
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KeycloakAdminCreateUserRequest'
+      responses:
+        201:
+          description: Created
+    get:
+      summary: Get user by username
+      description: Get user by username
+      operationId: getUserByUsername
+      tags:
+        - Keycloak Admin Client
+      parameters:
+        - in: query
+          name: username
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: User info
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserRepresentation'
+  /users/{userId}:
+    parameters:
+      - $ref: '#/components/parameters/userId'
+    put:
+      summary: Update user by user ID
+      description: Update user by user ID
+      operationId: updateUserByUserId
+      tags:
+        - Keycloak Admin Client
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRepresentation'
+      responses:
+        200:
+          description: Update successfully
+          content:
+            application/json: {}
+  /users/{userId}/logout:
+    parameters:
+      - $ref: '#/components/parameters/userId'
+    post:
+      summary: Remove all user sessions
+      description: Remove all user sessions
+      operationId: logout
+      tags:
+        - Keycloak Admin Client
+      responses:
+        200:
+          description: Logged out
+          content:
+            application/json: {}
 components:
+  parameters:
+    userId:
+      in: path
+      name: userId
+      required: true
+      schema:
+        type: string
   schemas:
     KeycloakLoginWithUsernameAndPasswordRequest:
       type: object
@@ -108,3 +186,58 @@ components:
           type: string
         email:
           type: string
+    KeycloakAdminCreateUserRequest:
+      type: object
+      properties:
+        email:
+          type: string
+        username:
+          type: string
+        emailVerified:
+          type: boolean
+        firstName:
+          type: string
+        lastName:
+          type: string
+        enabled:
+          type: boolean
+        groups:
+          type: array
+          items:
+            type: string
+        attributes:
+          type: array
+          items:
+            type: string
+        credentials:
+          type: array
+          items:
+            $ref: '#/components/schemas/KeycloakCredentialInfo'
+    KeycloakCredentialInfo:
+      type: object
+      properties:
+        temporary:
+          type: boolean
+        type:
+          type: string
+        value:
+          type: string
+      required:
+        - temporary
+        - type
+        - value
+    UserRepresentation:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        enabled:
+          type: boolean
